@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block title %}User{% endblock title %}
+
+{% block content %}
+<center><img src="{{url_for('static',filename='images/user_register.png')}}" height="150px" width="200px" class="mt-4"></center>
+<h1 class="text-center">User Registration Page</h1>
+
+     {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <ul class=flashes>
+                        {% for category,message in messages %}
+                            <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                                <strong>Message:</strong> {{ message}}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        {% endfor %}
+                    </ul>
+          {% endif %}
+        {% endwith %}
+
+<div class="alert alert-primary" role="alert" style="display:none" id='responsrtn'>Inserted Successfully</div>
+  
+    <form method="POST" class="mt-2" id="registerfrm">
+                  <div class="mb-3">
+                      <label for="exampleInputUsername" class="form-label">Username</label>
+                      <input type="text" name="username" class="form-control" id="unm" required>
+                      <div id="emailHelp" class="form-text">We'll never share your Username with anyone else.</div>
+                      <p style="display:none;color:red" id='error_username'>This Field required *</p>
+                  </div>   
+            <div class="mb-3">
+                  <label for="exampleInputEmail1" class="form-label">Email address</label>
+                  <input type="email" name="email" class="form-control" id="email" required>
+                  <p style="display:none;color:red" id='error_email'>This Field required *</p>
+              </div>
+            <div class="mb-3">
+              <label for="exampleInputPassword1" class="form-label">Password</label>
+              <input type="password" name="password" class="form-control" id="pass" required>
+              <p style="display:none;color:red" id='error_password'>This Field required *</p>
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputPassword1" class="form-label">Conform Password</label>
+              <input type="password" name="con_password" class="form-control" id="cpass" required>
+              <p style="display:none;color:red" id='error_con_password'>This Field required *</p>
+            </div>
+          <button type="button" class="btn btn-primary btn-lg" id="upload">Submit</button>
+</form>
+<p id="dis"></p>
+<table id="myTable" class="table table-responsive">
+<thead>
+    <tr class="thead-dark">
+        <th>Username</th>
+        <th>Email</th>
+        <th>Password</th>
+    </tr>
+    </thead>
+    <tbody id="tablebody">
+        {% for i in database_data %}
+        <tr> <td>{{i.username}}</td> <td>{{i.email}}</td>  <td>{{i.password_hash}}</td> </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock content %}
